@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft
+spec:
+  selector:
+    app: minecraft
+  ports:
+    - name: tcp
+      protocol: TCP
+      port: 25565
+      targetPort: 25565
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+spec:
+  selector:
+    matchLabels:
+      app: minecraft
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+      - name: minecraft
+        image: arieswangdocker/minecraft:0.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 25565
